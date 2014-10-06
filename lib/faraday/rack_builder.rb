@@ -54,9 +54,11 @@ module Faraday
       if block_given?
         build(&Proc.new)
       elsif @handlers.empty?
-        # default stack, if nothing else is configured
-        self.request :url_encoded
         self.adapter Faraday.default_adapter
+      end
+      
+      Faraday.default_middlewares.each do |type, middleware|
+        self.send(type, middleware)
       end
     end
 
