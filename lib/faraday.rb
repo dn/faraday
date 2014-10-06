@@ -36,6 +36,9 @@ module Faraday
 
     # Public: Sets the default options used when calling Faraday#new.
     attr_writer :default_connection_options
+    
+    # Public: Sets the default middlewares
+    attr_writer :default_middlewares
 
     # Public: Initializes a new Faraday::Connection.
     #
@@ -116,6 +119,13 @@ module Faraday
   # Returns a Faraday::ConnectionOptions.
   def self.default_connection_options
     @default_connection_options ||= ConnectionOptions.new
+  end
+  
+  def self.default_middlewares
+    @default_middlewares ||= {
+      request:  [:url_encoded],
+      response: []
+    }
   end
 
   if (!defined?(RUBY_ENGINE) || "ruby" == RUBY_ENGINE) && RUBY_VERSION < '1.9'
